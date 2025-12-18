@@ -34,4 +34,6 @@ public class FarmProductServic {
                         farmId, search, pageable);
     }
 
+    public void deleteById(Long id) {
+    }
 }

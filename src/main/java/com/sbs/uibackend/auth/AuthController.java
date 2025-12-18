@@ -18,16 +18,23 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 
-        // TEMP: Replace later with DB validation
-        if ("admin".equals(req.getUsername()) &&
-                "admin".equals(req.getPassword())) {
+        if ("admin".equals(req.getUsername())
+                && "admin".equals(req.getPassword())) {
 
-            String token = jwtUtil.generateToken(req.getUsername());
+            String token = jwtUtil.generateToken("admin", "ADMIN");
+            return ResponseEntity.ok(token);
+        }
+
+        if ("user".equals(req.getUsername())
+                && "user".equals(req.getPassword())) {
+
+            String token = jwtUtil.generateToken("user", "USER");
             return ResponseEntity.ok(token);
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid credentials");
     }
+
 }
 
