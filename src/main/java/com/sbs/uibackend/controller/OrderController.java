@@ -30,8 +30,8 @@ public class OrderController {
 
 
     @GetMapping
-    public List<Order> myOrders(Authentication authentication) {
-        return repo.findByUsername(authentication.getName());
+    public List<Order> myOrders(Authentication auth) {
+        return repo.findByUsername(auth.getName());
     }
 }
 
