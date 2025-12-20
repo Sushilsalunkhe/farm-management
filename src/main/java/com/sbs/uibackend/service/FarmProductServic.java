@@ -1,5 +1,6 @@
 package com.sbs.uibackend.service;
 
+import com.sbs.uibackend.entity.Farm;
 import com.sbs.uibackend.entity.FarmProduct;
 import com.sbs.uibackend.repo.FarmProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ public class FarmProductServic {
     @Autowired
     private FarmProductRepository productRepository;
 
+    /* ================= SAVE ================= */
+
     public FarmProduct saveProduct(FarmProduct product) {
         return productRepository.save(product);
     }
+
+    /* ================= GET BY FARM (PAGINATION + SEARCH) ================= */
 
     public Page<FarmProduct> getProducts(
             Long farmId, int page, int size, String search) {
@@ -34,6 +39,15 @@ public class FarmProductServic {
                         farmId, search, pageable);
     }
 
+    /* ================= GET ALL PRODUCTS ================= */
+
+    public List<FarmProduct> findAll() {
+        return productRepository.findAll();
+    }
+
+    /* ================= DELETE ================= */
+
     public void deleteById(Long id) {
+        productRepository.deleteById(id);
     }
 }

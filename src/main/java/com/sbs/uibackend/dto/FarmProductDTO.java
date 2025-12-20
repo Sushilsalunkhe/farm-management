@@ -3,8 +3,8 @@ package com.sbs.uibackend.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-@Getter @Setter
+@Getter
+@Setter
 public class FarmProductDTO {
 
     private Long id;
@@ -14,7 +14,10 @@ public class FarmProductDTO {
     private String category;
     private Double price;
     private Integer quantity;
+
+    private String description;   // NEW
     private Long farmId;
 }
+
 
 

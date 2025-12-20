@@ -20,6 +20,10 @@ public class FarmProduct extends BaseEntity {
     private Double price;
 
     private Integer quantity;
+    
+    private String description;
+
+    private String imagePath;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "farm_id")

@@ -3,6 +3,8 @@ package com.sbs.uibackend.controller;
 import com.sbs.uibackend.entity.Order;
 import com.sbs.uibackend.repo.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +31,17 @@ public class OrderController {
     }
 
 
-    @GetMapping
-    public List<Order> myOrders(Authentication auth) {
-        return repo.findByUsername(auth.getName());
+    @GetMapping("/my")
+    public ResponseEntity<?> myOrders(Authentication auth) {
+
+        if (auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("User not authenticated");
+        }
+
+        String username = auth.getName();
+        return ResponseEntity.ok(repo.findByUsername(username));
     }
+
 }
 
