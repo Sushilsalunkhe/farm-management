@@ -10,7 +10,6 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // ✅ 256-bit secret key (VERY IMPORTANT)
     private static final String SECRET_KEY =
             "my_super_secure_jwt_secret_key_which_is_32_chars_long";
 
@@ -20,19 +19,16 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    // 🔹 Generate token
     public String generateToken(String username, String role) {
-
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
+                .claim("role", role) // ADMIN
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // 🔹 Validate token
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -45,19 +41,14 @@ public class JwtUtil {
         }
     }
 
-    // 🔹 Extract username
     public String getUsername(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.getSubject();
+        return extractAllClaims(token).getSubject();
     }
 
-    // 🔹 Extract role
     public String getRole(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.get("role", String.class);
+        return extractAllClaims(token).get("role", String.class);
     }
 
-    // 🔹 Common method
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())

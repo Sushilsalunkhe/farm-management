@@ -23,7 +23,9 @@ public class FarmProduct extends BaseEntity {
     
     private String description;
 
-    private String imagePath;
+    @Column(name = "image_url")
+    private String imageUrl;
+
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "farm_id")

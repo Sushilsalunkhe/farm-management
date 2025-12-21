@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
 
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.findByUsernameIgnoreCase(user.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
         User user1 = new User();
@@ -32,6 +32,10 @@ public class UserController {
         user1.setPassword(passwordEncoder.encode(user.getPassword()));
         user1.setRole(user.getRole()); // or default role
         userRepository.save(user1);
+
+        System.out.println("User value" + user1.getUsername());
+        System.out.println("User value" + user1.getPassword());
+        System.out.println("User value" + user1.getRole());
 
         return ResponseEntity.ok("User registered successfully");
     }

@@ -43,7 +43,7 @@ public class FarmProductController {
         product.setPrice(dto.getPrice());
         product.setQuantity(dto.getQuantity());
         product.setDescription(dto.getDescription());
-        product.setImagePath(imageUrl);
+        product.setImageUrl(imageUrl);
 
         return productService.saveProduct(product);
     }

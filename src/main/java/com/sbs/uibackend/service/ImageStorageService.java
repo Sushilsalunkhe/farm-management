@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 public class ImageStorageService {
@@ -17,20 +18,19 @@ public class ImageStorageService {
 
     public String saveImage(MultipartFile file) throws IOException {
 
-        // ✅ Ensure directory exists
-        if (!Files.exists(uploadDir)) {
-            Files.createDirectories(uploadDir);
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path uploadPath = Paths.get("uploads");
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
         }
 
-        String filename =
-                System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-        Path filePath = uploadDir.resolve(filename);
-
+        Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // return relative URL
-        return "/uploads/products/" + filename;
+        // ✅ IMPORTANT: return URL, not file system path
+        return "/uploads/" + fileName;
     }
+
 }
 
